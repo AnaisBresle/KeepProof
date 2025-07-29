@@ -23,9 +23,14 @@ Files.init(
   approval_decision_id: {
   type: DataTypes.INTEGER,
   allowNull: true,  // allow updload of new/updated file on approval - but can be null as not all decision require a file. 
-}
+},
+ approval_request_id: {
+      type: DataTypes.INTEGER,
+      allowNull: true, // Files can be linked directly to requests
+
 
   },
+}
   {
     sequelize,
     timestamps: false,
