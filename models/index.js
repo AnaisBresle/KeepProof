@@ -8,25 +8,37 @@ const WorkflowStage = require("./workflow_stage");
 const Files = require("./files");
 
 
-
-Post.belongsTo(Category, {
-  foreignKey: "categoryId",
-  as: "category",
+Roles.hasMany(Users, {
+  foreignKey: "role_id",
+  onDelete: "SET NULL",
 });
 
-Category.hasMany(Post, {
-  foreignKey: "categoryId",
-  as: "posts",
+Users.belongsTo(Roles, {
+  foreignKey: "role_id",
 });
 
-User.hasMany(Post, {
-  foreignKey: "userId",
+
+Users.hasMany(ApprovalRequests, {
+  foreignKey: "created_by",
   onDelete: "CASCADE",
 });
 
-Post.belongsTo(User, {
-  foreignKey: "userId",
+ApprovalRequests.belongsTo(Users, {
+  foreignKey: "created_by",
 });
+
+Users.hasMany(ApprovalDecisions, {
+  foreignKey: "acted_by",
+  onDelete: "CASCADE",
+});
+
+ApprovalDecisions.belongsTo(Users, {
+  foreignKey: "acted_by",
+});
+
+
+
+
 
 module.exports = {
  Users,
