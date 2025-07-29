@@ -18,7 +18,12 @@ Files.init(
   description: {
     type: DataTypes.TEXT,
     allowNull: true,
-  }
+  },
+
+  approval_decision_id: {
+  type: DataTypes.INTEGER,
+  allowNull: true,  // allow updload of new/updated file on approval - but can be null as not all decision require a file. 
+}
 
   },
   {
