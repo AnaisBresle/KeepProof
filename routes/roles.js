@@ -2,7 +2,7 @@
 const app = require("express").Router();
 
 // import the models
-const { Roles } = require("../models/index");
+const { Roles, Users } = require("../models/index");
 
 // As roles are set up in the app there's is not need for create, delete or update route at this point
 // In later dev, we may consider allowing new roles and or tweaks in preset ones. But for now these are Read only. 
@@ -37,8 +37,8 @@ app.get("/:id", async (req, res) => {
 // Route to retireve all users for one specific role
 router.get("/:role_id/users", async (req, res) => {
   try {
-    const users = await User.findAll({
-      where: { role_id: req.params.roleId },
+    const users = await Users.findAll({
+      where: { role_id: req.params.role_id },
     });
     res.json(users);
   } catch (error) {
