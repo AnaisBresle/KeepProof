@@ -43,11 +43,17 @@ app.get("/:id", async (req, res) => {
 });
 
 // Route to retireve all decisions for one specific request
-///TO ADD
-
-
-
-
+router.get("/:request_id/decisions", async (req, res) => {
+  try {
+    const decisions = await ApprovalDecisions.findAll({
+      where: { request_id: req.params.request_id },
+      order: [['action_at', 'DSC']],  // Order by date of action
+    });
+    res.json(decisions);
+  } catch (error) {
+    res.status(500).json({ error: "Error retrieving decisions for this request", details: error.message });
+  }
+});
 
 // Route to update a decision
 app.put("/:id", async (req, res) => {
