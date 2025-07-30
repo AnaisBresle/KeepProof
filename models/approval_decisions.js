@@ -27,16 +27,16 @@ ApprovalDecisions.init(
     type: DataTypes.TEXT,
     allowNull: true,
   },
-  timestamp: {
+  action_at: {
     type: DataTypes.DATE,
     allowNull: false,
     defaultValue: DataTypes.NOW,
   },
-  from_role: {
+  from_role: { // role of the user taking or responsible to sign-off at this stage
     type: DataTypes.STRING,
     allowNull: true,
   },
-  to_role: {
+  to_role: { // role of the user who is next on the approval workflow (if any or if escalated)
     type: DataTypes.STRING,
     allowNull: true,
   }

@@ -31,6 +31,12 @@ ApprovalRequests.init(
     type: DataTypes.INTEGER, // will use user_id
     allowNull: false,
   },
+
+updated_by: {
+    type: DataTypes.INTEGER, // will use user_id
+    allowNull: false,
+  },
+
   current_approver: {
     type: DataTypes.INTEGER, // will use user_id
     allowNull: true,
