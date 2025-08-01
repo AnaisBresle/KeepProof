@@ -12,6 +12,8 @@ const workflowStageData = require("./workflow_stages.json");
 
 // Seed database
 const seedDatabase = async () => {
+
+  try{
   await sequelize.sync({ force: true });
 
   await Roles.bulkCreate(rolesData);
@@ -19,8 +21,15 @@ const seedDatabase = async () => {
   await Workflow.bulkCreate(workflowData);
   await WorkflowStage.bulkCreate(workflowStageData);
 
-  process.exit(0);
+
+  console.log('Database seeded successfully');
+   process.exit(0); // success
+
+   } catch (err) {
+    console.error('Failed to seed database:', err);
+    process.exit(1); // Error occured
+  }
 };
 
 // Call seedDatabase function
-seedDatabase();
+seedDatabase()
