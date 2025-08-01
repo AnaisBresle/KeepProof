@@ -1,8 +1,20 @@
 [
   {
     "id": "1",
-    "name": "user",
-  "description": "xxx",
+    "name": "Budget Approval",
+  "description": "Approval workflow for budget requests.",
+  },
+
+    {
+    "id": "2",
+    "name": "Purchase",
+  "description": "Approval workflow for purchasing requests.",
+  },
+
+    {
+    "id": "3",
+    "name": "Content Review",
+  "description": "Workflow for content submission, review, feedback, and approval.",
   },
 
 ]
