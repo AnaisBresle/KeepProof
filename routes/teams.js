@@ -28,12 +28,14 @@ app.get("/", async (req, res) => {
 });
 
 
-// Route to get one specific teams
+// Route to get one specific team with users attached to it
 app.get("/:id", async (req, res) => {
   try {
-    const team = await Teams.findByPk(req.params.id);
-    res.json(team);
-  if (!team) {
+    const team = await Teams.findByPk(req.params.id,{
+     include: [{ model: Users, through: { attributes: [] } }]
+    });
+
+     if (!team) {
       return res.status(404).json({ error: "Team not found" });
     }
     res.json(team);
@@ -41,6 +43,8 @@ app.get("/:id", async (req, res) => {
     res.status(500).json({ error: "Error retrieving team", details: error.message });
   }
 });
+
+
 
 // Route to update a team
 app.put("/:id", async (req, res) => {
