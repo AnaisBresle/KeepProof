@@ -1,7 +1,7 @@
 const router = require("express").Router();
 
 // import the models
-const { Workflow } = require("../models/index");
+const { WorkflowStage } = require("../models/index");
 
 // Same as workflow - MVP does not allow additional stages. 
 

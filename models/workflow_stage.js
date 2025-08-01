@@ -15,6 +15,13 @@ WorkflowStage.init(
     type: DataTypes.INTEGER, //use workflows.id
     allowNull: false,
   },
+
+  name: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      unique: true,
+    },
+    
   stage_order: {
     type: DataTypes.INTEGER,
     allowNull: false,
