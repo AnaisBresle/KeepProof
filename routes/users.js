@@ -2,67 +2,71 @@
 const app = require("express").Router();
 
 // import the models
-const { ApprovalRequests } = require("../models/index");
+const { Users } = require("../models/index");
 
-// Route to add a new post
+// Route to create a new user
 app.post("/", async (req, res) => {
   try {
-    const { title, type, description, created_by } = req.body;
-    const newRequest = await ApprovalRequests.create({ title, type, description, created_by, created_at: new Date() });
+    const { username, email, password, role_id } = req.body;
+    const newUser = await Users.create({ username, email, password, role_id, created_on: new Date() });
 
-    res.status(201).json(newRequest);
+    res.status(201).json(newUser);
   } catch (error) {
-    res.status(500).json({ error: "Error adding new Request" });
+    res.status(500).json({ error: "Error adding new User" });
   }
 });
 
-// Route to get all approval requests
+// Route to get all users and their teams
 app.get("/", async (req, res) => {
   try {
-    const requests = await ApprovalRequests.findAll();
+    const users = await Users.findAll({
+      include: [{model:Teams, through:{attritbutes:[]}}]
+    });
 
-    res.json(requests);
+    res.json(users);
   } catch (error) {
-    res.status(500).json({ error: "Error retrieving requests", error });
+    res.status(500).json({ error: "Error retrieving users", error });
   }
 });
 
 
-// Route to get one specific approval requests
+// Route to get one specific user and its teams
 app.get("/:id", async (req, res) => {
   try {
-    const request = await ApprovalRequests.findByPk(req.params.id);
-    res.json(request);
-  if (!request) {
-      return res.status(404).json({ error: "Request not found" });
+    const user = await Users.findByPk(req.params.id, {
+      include: [{ model:Teams, through:{attritbutes:[]}}]
+    });
+    
+  if (!user) {
+      return res.status(404).json({ error: "User not found" });
     }
-    res.json(request);
+    res.json(user);
   } catch (error) {
-    res.status(500).json({ error: "Error retrieving request", details: error.message });
+    res.status(500).json({ error: "Error retrieving user", details: error.message });
   }
 });
 
-// Route to update a request
+// Route to update a user
 app.put("/:id", async (req, res) => {
   try {
-    const { title, type, description, updated_by } = req.body;
-    const UpdateRequest = await ApprovalRequests.update(
-      { title, type, description, updated_by, updated_at: new Date() },
+    const { username, email, password, role_id } = req.body;
+    const UpdateUser = await Users.update(
+      { username, email, password, role_id  },
       { where: { id: req.params.id } }
     );
-    res.json(UpdateRequest);
+    res.json(UpdateUser);
   } catch (error) {
-    res.status(500).json({ error: "Error updating request" });
+    res.status(500).json({ error: "Error updating uer" });
   }
 });
 
-// Route to delete a request
+// Route to delete a user
 app.delete("/:id", async (req, res) => {
   try {
-    const deleteRequest = await ApprovalRequests.destroy({ where: { id: req.params.id } });
-    res.json(deleteRequest);
+    const deleteUser = await Users.destroy({ where: { id: req.params.id } });
+    res.json(deleteUser);
   } catch (error) {
-    res.status(500).json({ error: "Error deleting request" });
+    res.status(500).json({ error: "Error deleting user" });
   }
 });
 
