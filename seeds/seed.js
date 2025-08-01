@@ -23,7 +23,7 @@ const seedDatabase = async () => {
 
 
   console.log('Database seeded successfully');
-   process.exit(0); // success
+   process.exit(0); // success 
 
    } catch (err) {
     console.error('Failed to seed database:', err);
