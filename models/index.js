@@ -6,6 +6,8 @@ const ApprovalRequests = require("./approval_requests");
 const Workflow = require("./workflow");
 const WorkflowStage = require("./workflow_stage");
 const Files = require("./files");
+const Teams = require("./teams");
+const UserTeams = require("./user_teams");
 
 // User and role tables link
 Roles.hasMany(Users, {
@@ -36,13 +38,25 @@ ApprovalDecisions.belongsTo(Users, {
   foreignKey: "acted_by",
 });
 
-Users.hasMany(File, {
+Users.hasMany(Files, {
   foreignKey: "uploaded_by",
   onDelete: "SET NULL",
 });
 
-File.belongsTo(Users, {
+Files.belongsTo(Users, {
   foreignKey: "uploaded_by",
+});
+
+// Many-to-Many Users <-> Teams relationship via UserTeams
+Users.belongsToMany(Teams, {
+  through: UserTeams,
+  foreignKey: "user_id",
+  otherKey: "team_id",
+});
+Teams.belongsToMany(Users, {
+  through: UserTeams,
+  foreignKey: "team_id",
+  otherKey: "user_id",
 });
 
 // Request and decisions relationships
@@ -58,20 +72,20 @@ ApprovalDecisions.belongsTo(ApprovalRequests, {
 
 // linking files to request and decisions
 
-ApprovalRequests.hasMany(File, {
+ApprovalRequests.hasMany(Files, {
   foreignKey: "approval_request_id",
   onDelete: "CASCADE",
 });
 
-File.belongsTo(ApprovalRequests, {
+Files.belongsTo(ApprovalRequests, {
   foreignKey: "approval_request_id",
 });
 
-ApprovalDecisions.hasMany(File, {
+ApprovalDecisions.hasMany(Files, {
   foreignKey: "approval_decision_id",
   onDelete: "CASCADE",
 });
-File.belongsTo(ApprovalDecisions, {
+Files.belongsTo(ApprovalDecisions, {
   foreignKey: "approval_decision_id",
 });
 
@@ -94,5 +108,8 @@ module.exports = {
  ApprovalRequests,
  Workflow,
  WorkflowStage,
- Files
+ Files,
+ Teams,
+ UserTeams,
+ 
 };
