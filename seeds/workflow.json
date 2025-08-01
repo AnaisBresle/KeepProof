@@ -2,20 +2,20 @@
   {
     "id": "1",
     "name": "Budget Approval",
-  "description": "Approval workflow for budget requests.",
+  "description": "Approval workflow for budget requests."
   },
 
     {
     "id": "2",
     "name": "Purchase",
-  "description": "Approval workflow for purchasing requests.",
+  "description": "Approval workflow for purchasing requests."
   },
 
     {
     "id": "3",
     "name": "Content Review",
-  "description": "Workflow for content submission, review, feedback, and approval.",
-  },
+  "description": "Workflow for content submission, review, feedback, and approval."
+  }
 
 ]
 
