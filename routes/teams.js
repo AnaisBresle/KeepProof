@@ -2,67 +2,67 @@
 const app = require("express").Router();
 
 // import the models
-const { ApprovalRequests } = require("../models/index");
+const { Teams } = require("../models/index");
 
-// Route to add a new post
+// Route to add a new team
 app.post("/", async (req, res) => {
   try {
-    const { title, type, description, created_by } = req.body;
-    const newRequest = await ApprovalRequests.create({ title, type, description, created_by, created_at: new Date() });
+    const { name } = req.body;
+    const newTeam = await Teams.create({ name});
 
-    res.status(201).json(newRequest);
+    res.status(201).json(newTeam);
   } catch (error) {
-    res.status(500).json({ error: "Error adding new Request" });
+    res.status(500).json({ error: "Error creating the Team" });
   }
 });
 
-// Route to get all approval requests
+// Route to get all teams
 app.get("/", async (req, res) => {
   try {
-    const requests = await ApprovalRequests.findAll();
+    const teams = await Teams.findAll();
 
-    res.json(requests);
+    res.json(teams);
   } catch (error) {
-    res.status(500).json({ error: "Error retrieving requests", error });
+    res.status(500).json({ error: "Error retrieving teams", error });
   }
 });
 
 
-// Route to get one specific approval requests
+// Route to get one specific teams
 app.get("/:id", async (req, res) => {
   try {
-    const request = await ApprovalRequests.findByPk(req.params.id);
-    res.json(request);
-  if (!request) {
-      return res.status(404).json({ error: "Request not found" });
+    const team = await Teams.findByPk(req.params.id);
+    res.json(team);
+  if (!team) {
+      return res.status(404).json({ error: "Team not found" });
     }
-    res.json(request);
+    res.json(team);
   } catch (error) {
-    res.status(500).json({ error: "Error retrieving request", details: error.message });
+    res.status(500).json({ error: "Error retrieving team", details: error.message });
   }
 });
 
-// Route to update a request
+// Route to update a team
 app.put("/:id", async (req, res) => {
   try {
-    const { title, type, description, updated_by } = req.body;
-    const UpdateRequest = await ApprovalRequests.update(
-      { title, type, description, updated_by, updated_at: new Date() },
+    const { name } = req.body;
+    const UpdateTeam = await Teams.update(
+      { name },
       { where: { id: req.params.id } }
     );
-    res.json(UpdateRequest);
+    res.json(UpdateTeam);
   } catch (error) {
-    res.status(500).json({ error: "Error updating request" });
+    res.status(500).json({ error: "Error updating team" });
   }
 });
 
-// Route to delete a request
+// Route to delete a team
 app.delete("/:id", async (req, res) => {
   try {
-    const deleteRequest = await ApprovalRequests.destroy({ where: { id: req.params.id } });
-    res.json(deleteRequest);
+    const deleteTeam = await Teams.destroy({ where: { id: req.params.id } });
+    res.json(deleteTeam);
   } catch (error) {
-    res.status(500).json({ error: "Error deleting request" });
+    res.status(500).json({ error: "Error deleting team" });
   }
 });
 
