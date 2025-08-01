@@ -7,7 +7,7 @@
     "name":"Request",
   "stage_order": "1",
   "role_required": "user",
-    "escalation_role": "",
+    "escalation_role": "department_head",
   },
 
 
@@ -17,7 +17,7 @@
     "name":"First Level Approval",
   "stage_order": "2",
   "role_required": "supervisor",
-    "escalation_role": "",
+    "escalation_role": null,
   },
 
     {
@@ -35,7 +35,7 @@
     "name":"Final Approval",
   "stage_order": "4",
   "role_required": "c_level",
-    "escalation_role": "",
+    "escalation_role": null,
   },
 
       {
@@ -44,7 +44,7 @@
     "name":"Escalated",
   "stage_order": "5",
   "role_required": "user",
-    "escalation_role": "",
+    "escalation_role": null,
   },
 
   // Purchase stages (workflow_id:2)
@@ -55,7 +55,7 @@
     "name":"Request",
   "stage_order": "1",
   "role_required": "user",
-    "escalation_role": "",
+    "escalation_role": "department_head",
   },
 
 
@@ -65,7 +65,7 @@
     "name":"First Level Approval",
   "stage_order": "2",
   "role_required": "supervisor",
-    "escalation_role": "",
+    "escalation_role": null,
   },
 
     {
@@ -83,7 +83,7 @@
     "name":"Final Approval",
   "stage_order": "4",
   "role_required": "c_level",
-    "escalation_role": "",
+    "escalation_role": null,
   },
 
       {
@@ -92,7 +92,7 @@
     "name":"Escalated",
   "stage_order": "5",
   "role_required": "user",
-    "escalation_role": "",
+    "escalation_role": null,
   },
 
 
@@ -104,7 +104,7 @@
     "name":"Request",
   "stage_order": "1",
   "role_required": "user",
-    "escalation_role": "",
+    "escalation_role": null,
   },
 
 
@@ -116,7 +116,7 @@
     "name":"Request",
   "stage_order": "1",
   "role_required": "user",
-    "escalation_role": "",
+    "escalation_role": "c_level",
   },
 
     {
@@ -134,7 +134,7 @@
     "name":"Feedback Signoff",
   "stage_order": "3",
   "role_required": "feedback_manage",
-    "escalation_role": "",
+    "escalation_role": null,
   },
 
       {
@@ -143,7 +143,7 @@
     "name":"Feedback Resolution",
   "stage_order": "4",
   "role_required": "user",
-    "escalation_role": "",
+    "escalation_role": null,
   },
 
      {
@@ -152,7 +152,7 @@
     "name":"Compliance Review",
   "stage_order": "5",
   "role_required": "compliance",
-    "escalation_role": "",
+    "escalation_role": null,
   },
 
 
@@ -162,7 +162,7 @@
     "name":"Final Approval",
   "stage_order": "6",
   "role_required": "department_head",
-    "escalation_role": "",
+    "escalation_role": null,
   },
 
 
