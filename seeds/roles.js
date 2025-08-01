@@ -1,0 +1,46 @@
+[
+  {
+    "id": "1",
+    "role_name": "user",
+    
+  },
+
+    {
+    "id": "2",
+    "role_name": "supervisor",
+    
+  },
+
+    {
+    "id": "3",
+    "role_name": "department_head",
+    
+  },
+
+
+    {
+    "id": "4",
+    "role_name": "c_level",
+    
+  },
+
+  {
+    "id": "5",
+    "role_name": "team_member",
+    
+  },
+
+  {
+    "id": "6",
+    "role_name": "feedback_manager",
+    
+  },
+
+  {
+    "id": "7",
+    "role_name": "Compliance",
+    
+  },
+
+  
+]
