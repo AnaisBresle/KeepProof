@@ -30,7 +30,7 @@ Files.init(
 
 
   },
-}
+},
   {
     sequelize,
     timestamps: false,
@@ -38,7 +38,8 @@ Files.init(
     underscored: true,
     modelName: "files",
   }
-);
+
+  );
 
 // Export Post model
 module.exports = Files;
