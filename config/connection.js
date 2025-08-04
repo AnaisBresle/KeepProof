@@ -16,7 +16,7 @@ const sequelize = process.env.JAWSDB_URL
       {
         host: process.env.DB_HOST,
         dialect: process.env.DB_DIALECT,
-         port: Number(process.env.DB_PORT) || 3306,
+         port: Number(process.env.DB_PORT) || 3306, 
       }
     );
 
