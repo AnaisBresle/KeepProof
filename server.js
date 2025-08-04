@@ -5,7 +5,7 @@ const jwt = require("jsonwebtoken");
 const bcrypt = require("bcryptjs");
 const sequelize = require("./config/connection");
 const routes = require('./routes'); // set up the link to the routes
-app.use('/api', routes);
+
 const { Users } = require('./models'); // Import Users model 
 const app = express();
 const PORT = process.env.PORT || 3001; 
@@ -13,7 +13,7 @@ const PORT = process.env.PORT || 3001;
 const SECRET_KEY = process.env.JWT_SECRET || "supersecretkey";
 
 app.use(express.json());
-
+app.use('/api', routes);
 
 // Middleware for authenticating JWT tokens
 const authenticateJWT = (req, res, next) => {

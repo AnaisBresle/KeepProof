@@ -3,7 +3,7 @@ const Users = require("./users");
 const Roles = require("./roles");
 const ApprovalDecisions = require("./approval_decisions");
 const ApprovalRequests = require("./approval_requests");
-const Workflow = require("./workflow");
+const Workflows = require("./workflows");
 const WorkflowStage = require("./workflow_stage");
 const Files = require("./files");
 const Teams = require("./teams");
@@ -91,12 +91,12 @@ Files.belongsTo(ApprovalDecisions, {
 
 /// workflows & stages relatioships
 
-Workflow.hasMany(WorkflowStage, {
+Workflows.hasMany(WorkflowStage, {
   foreignKey: "workflow_id",
   onDelete: "CASCADE",
 });
 
-WorkflowStage.belongsTo(Workflow, {
+WorkflowStage.belongsTo(Workflows, {
   foreignKey: "workflow_id",
 });
 
@@ -106,7 +106,7 @@ module.exports = {
  Roles,
  ApprovalDecisions,
  ApprovalRequests,
- Workflow,
+ Workflows,
  WorkflowStage,
  Files,
  Teams,

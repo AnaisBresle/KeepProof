@@ -1,4 +1,4 @@
-const router = require("express").Router();
+const app= require("express").Router();
 
 const approvalDecisionsRoutes = require("./approval_decisions");
 const approvalRequestsRoutes = require("./approval_requests");
@@ -11,20 +11,20 @@ const workflowStageRoutes = require("./workflow_stage");
 const workflowsRoutes = require("./workflows");
 
 // create a default route for /api
-router.get("/", (req, res) => {
+app.get("/", (req, res) => {
   res.json({ message: "Welcome to the API" });
 });
 
-router.use("/api/approval_decisions", approvalDecisionsRoutes);
-router.use("/api/approval_requests", approvalRequestsRoutes);
+app.use("/approval_decisions", approvalDecisionsRoutes);
+app.use("/approval_requests", approvalRequestsRoutes);
 
-router.use("/api/files", filesRoutes);
-router.use("/api/roles", rolesRoutes);
-router.use("/api/users", usersRoutes);
+app.use("/files", filesRoutes);
+app.use("/roles", rolesRoutes);
+app.use("/users", usersRoutes);
 
-router.use("/api/workflow_stage", workflowStageRoutes);
-router.use("/api/workflows", workflowsRoutes);
+app.use("/workflow_stage", workflowStageRoutes);
+app.use("/workflows", workflowsRoutes);
 
 
 
-module.exports = router;
+module.exports = app;
