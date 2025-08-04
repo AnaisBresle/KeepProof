@@ -19,7 +19,7 @@ WorkflowStage.init(
   name: {
       type: DataTypes.STRING,
       allowNull: false,
-      unique: true,
+      unique: false,
     },
     
   stage_order: {
