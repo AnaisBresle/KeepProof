@@ -11,7 +11,7 @@ const workflowStageRoutes = require("./workflow_stage");
 const workflowsRoutes = require("./workflows");
 
 // create a default route for /api
-router.get("/api", (req, res) => {
+router.get("/", (req, res) => {
   res.json({ message: "Welcome to the API" });
 });
 
