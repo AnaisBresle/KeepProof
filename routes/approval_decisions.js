@@ -47,7 +47,7 @@ router.get("/:request_id/decisions", async (req, res) => {
   try {
     const decisions = await ApprovalDecisions.findAll({
       where: { request_id: req.params.request_id },
-      order: [['action_at', 'DSC']],  // Order by date of action
+      order: [['action_at', 'DESC']],  // Order by date of action
     });
     res.json(decisions);
   } catch (error) {
