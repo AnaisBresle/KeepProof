@@ -9,6 +9,7 @@ const routes = require('./routes'); // set up the link to the routes
 const { Users } = require('./models'); // Import Users model 
 const app = express();
 const PORT = process.env.PORT || 3001; 
+const path = require('path');
 
 const SECRET_KEY = process.env.JWT_SECRET || "supersecretkey";
 
@@ -62,13 +63,18 @@ app.post("/login", async (req, res) => {
 
 
 // Serve static files from the 'public' directory
-app.use(express.static('public'));
+app.use(express.static(path.join(__dirname, 'public')));
 
+
+// Serve index.htm on the root route
+app.get('/', (req, res) => {
+  res.sendFile(path.join(__dirname, 'public', 'index.htm'));
+});
 
 
 // Sync database and start server
 sequelize.sync().then(() => {
   app.listen(PORT, () => {
-    console.log(`Server is running on port ${PORT}`);
+    console.log(`Server is running on http://localhost:${PORT}`);
   });
 });
