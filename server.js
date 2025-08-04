@@ -1,22 +1,19 @@
+require('dotenv').config(); // Load env vars upfront
+
 const express = require("express");
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcryptjs");
-const { DataTypes } = require("sequelize");
-const dotenv = require("dotenv");
 const sequelize = require("./config/connection");
-
-dotenv.config();
+const routes = require('./routes'); // set up the link to the routes
+app.use('/api', routes);
+const { Users } = require('./models'); // Import Users model 
 const app = express();
-const PORT = process.env.PORT || 3001;  /// was not workign because of port
+const PORT = process.env.PORT || 3001; 
+
 const SECRET_KEY = process.env.JWT_SECRET || "supersecretkey";
 
-// Define User Model
-const User = sequelize.define("User", {
-  username: { type: DataTypes.STRING, allowNull: false, unique: true },
-  password: { type: DataTypes.STRING, allowNull: false },
-});
-
 app.use(express.json());
+
 
 // Middleware for authenticating JWT tokens
 const authenticateJWT = (req, res, next) => {
@@ -33,9 +30,9 @@ const authenticateJWT = (req, res, next) => {
 // Register a new user
 app.post("/register", async (req, res) => {
   try {
-    const { username, password } = req.body;
+    const { username, password, email, role_id } = req.body;
     const hashedPassword = await bcrypt.hash(password, 10);
-    const user = await User.create({ username, password: hashedPassword });
+    const user = await Users.create({ username, password: hashedPassword, email, role_id });
     res.json({ message: "User created successfully", user });
   } catch (error) {
     res.status(400).json({ message: "Error creating user", error });
@@ -46,7 +43,7 @@ app.post("/register", async (req, res) => {
 app.post("/login", async (req, res) => {
   try {
     const { username, password } = req.body;
-    const user = await User.findOne({ where: { username } });
+    const user = await Users.findOne({ where: { username } });
 
     if (!user || !(await bcrypt.compare(password, user.password))) {
       return res.status(401).json({ message: "Invalid username or password" });
@@ -55,7 +52,7 @@ app.post("/login", async (req, res) => {
     const token = jwt.sign(
       { id: user.id, username: user.username },
       SECRET_KEY,
-      { expiresIn: "1h" }
+      { expiresIn: "2h" }
     );
     res.json({ token });
   } catch (error) {
@@ -63,20 +60,11 @@ app.post("/login", async (req, res) => {
   }
 });
 
-// protected route
-app.get("/protected", (req, res) => {
-  res.json({ message: "This is a protected route", user: req.user });
-});
 
-// HINT: See W7-S3-Express/9_ServeStatic/exercise/server.js for the solution
+// Serve static files from the 'public' directory
+app.use(express.static('public'));
 
-// TODO: Serve static files from the 'public' directory
 
-app.listen(PORT, () => {
-  console.log(`Server running on http://localhost:${PORT}`);
-});
-
-// TODO: Handle GET request at the root route
 
 // Sync database and start server
 sequelize.sync().then(() => {
