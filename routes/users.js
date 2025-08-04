@@ -20,6 +20,32 @@ app.post("/", async (req, res) => {
   }
 });
 
+
+
+// Route to get all users and their teams
+app.get("/", async (req, res) => {
+  try {
+    const users = await Users.findAll({
+      include: [{model: Teams, through:{attributes:[]}}]
+    });
+
+    res.json(users);
+  } catch (error) {
+    res.status(500).json({ error: "Error retrieving users", error });
+  }
+});
+
+
+// Route to get all users
+app.get("/", async (req, res) => {
+  try {
+    const allUsers = await Users.findAll()
+     res.json(allUsers);
+  } catch (error) {
+    res.status(500).json({ error: "Error retrieving user", details: error.message });
+  }
+});
+
 // Route to get all users and their teams
 app.get("/", async (req, res) => {
   try {
