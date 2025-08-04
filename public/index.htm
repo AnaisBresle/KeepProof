@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login & Registration</title>
+    <title>KeepProof</title>
     <link rel="stylesheet" href="./assets/style.css">
 </head>
 
@@ -14,19 +14,19 @@
         <input type="text" id="username" placeholder="Username">
         <input type="email" id="email" placeholder="Email">
         <input type="password" id="password" placeholder="Password">
-        <button onclick="register()">Register</button>
+        <button type="button" onclick="register()">Register</button>
         <hr>
         <h2>Login</h2>
         <input type="email" id="login-email" placeholder="Email">
         <input type="password" id="login-password" placeholder="Password">
-        <button onclick="login()">Login</button>
+        <button type="button" onclick="login()">Login</button>
     </div>
 
     <div class="container hidden" id="app-container">
         <h2 id="welcome-message">Welcome</h2>
-        <button onclick="logout()">Logout</button>
+        <button type="button" onclick="logout()">Logout</button>
         <hr>
-       
+       <div id="request-list"></div>
     </div>
 
     <script src="./assets/script.js"></script>
