@@ -43,7 +43,7 @@ app.get("/:id", async (req, res) => {
 });
 
 // Route to retireve all decisions for one specific request
-router.get("/:request_id/decisions", async (req, res) => {
+app.get("/:request_id/decisions", async (req, res) => {
   try {
     const decisions = await ApprovalDecisions.findAll({
       where: { request_id: req.params.request_id },

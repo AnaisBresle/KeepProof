@@ -35,7 +35,7 @@ app.get("/:id", async (req, res) => {
 });
 
 // Route to retireve all users for one specific role
-router.get("/:role_id/users", async (req, res) => {
+app.get("/:role_id/users", async (req, res) => {
   try {
     const users = await Users.findAll({
       where: { role_id: req.params.role_id },

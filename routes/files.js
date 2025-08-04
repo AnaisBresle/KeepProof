@@ -6,7 +6,7 @@ const { Roles, Users } = require("../models/index");
 
 
 // Create/upload a new file
-router.post("/", async (req, res) => {
+app.post("/", async (req, res) => {
   try {
     const { name, description, approval_request_id, approval_decision_id, uploaded_by } = req.body;
     const newFile = await Files.create({ 
@@ -24,7 +24,7 @@ router.post("/", async (req, res) => {
 });
 
 // Get all files
-router.get("/", async (req, res) => {
+app.get("/", async (req, res) => {
   try {
     const files = await Files.findAll();
     res.json(files);
@@ -34,7 +34,7 @@ router.get("/", async (req, res) => {
 });
 
 // Get one file by ID
-router.get("/:id", async (req, res) => {
+app.get("/:id", async (req, res) => {
   try {
     const file = await Files.findByPk(req.params.id);
     if (!file) {
@@ -52,7 +52,7 @@ router.get("/:id", async (req, res) => {
 
 
 // Delete a file by ID
-router.delete("/:id", async (req, res) => {
+app.delete("/:id", async (req, res) => {
   try {
     await Files.destroy({ where: { id: req.params.id } });
     res.json({ message: "File deleted successfully" });
@@ -64,4 +64,4 @@ router.delete("/:id", async (req, res) => {
 
 
 
-module.exports = router;
+module.exports = app;
