@@ -1,16 +1,20 @@
 // create a new router
 const app = require("express").Router();
+const bcrypt = require("bcryptjs");
 
 // import the models
-const { Users } = require("../models/index");
+const { Users, Teams } = require("../models/index");
 
 // Route to create a new user
 app.post("/", async (req, res) => {
   try {
     const { username, email, password, role_id } = req.body;
-    const newUser = await Users.create({ username, email, password, role_id, created_on: new Date() });
+    const password_hash = await bcrypt.hash(password, 10);
+    const newUser = await Users.create({ username, email, password_hash, role_id, created_on: new Date() });
 
-    res.status(201).json(newUser);
+     // Exclude password_hash in the response
+    const { password_hash: _, ...userData } = newUser.toJSON();
+    res.status(201).json(userData);
   } catch (error) {
     res.status(500).json({ error: "Error adding new User" });
   }
@@ -20,7 +24,7 @@ app.post("/", async (req, res) => {
 app.get("/", async (req, res) => {
   try {
     const users = await Users.findAll({
-      include: [{model:Teams, through:{attritbutes:[]}}]
+      include: [{model: Teams, through:{attributes:[]}}]
     });
 
     res.json(users);
@@ -34,7 +38,7 @@ app.get("/", async (req, res) => {
 app.get("/:id", async (req, res) => {
   try {
     const user = await Users.findByPk(req.params.id, {
-      include: [{ model:Teams, through:{attritbutes:[]}}]
+      include: [{ model: Teams, through:{attributes:[]}}]
     });
     
   if (!user) {
