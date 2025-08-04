@@ -2,7 +2,7 @@
 const sequelize = require("../config/connection");
 
 // import models
-const { Roles, Teams, Workflow, WorkflowStage } = require("../models");
+const { Roles, Teams, Workflows, WorkflowStage } = require("../models");
 
 // import seed data
 const rolesData = require("./roles.json");
@@ -18,7 +18,7 @@ const seedDatabase = async () => {
 
   await Roles.bulkCreate(rolesData);
   await Teams.bulkCreate(teamsData);
-  await Workflow.bulkCreate(workflowData);
+  await Workflows.bulkCreate(workflowData);
   await WorkflowStage.bulkCreate(workflowStageData);
 
 
