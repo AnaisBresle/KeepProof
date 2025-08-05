@@ -7,7 +7,7 @@ const { UserTeams, Users, Teams } = require("../models/index");
 // Route to Assign a user to a team
 app.post("/", async (req, res) => {
   try {
-    const { user_id, team_ud } = req.body;
+    const { user_id, team_id } = req.body;
 
 
      if (!user_id || !team_id) return res.status(400).json({ error: 'Missing user_id or team_id' });
@@ -18,7 +18,7 @@ app.post("/", async (req, res) => {
     if (existing) return res.status(409).json({ error: 'User already in team' });
     
     
-    const userTeam = await UserTeams.create({ user_id, teams_id});
+    const userTeam = await UserTeams.create({ user_id, team_id});
 
     res.status(201).json(userTeam);
   } catch (error) {
@@ -42,7 +42,7 @@ res.json({ message: 'User removed from team' });
 
 
 // Route to get all TEAMs for one USER
-app.get("/user:userId", async (req, res) => {
+app.get("/user/:userId", async (req, res) => {
   try {
     const userteams = await UserTeams.findAll({
     where: { user_id: req.params.userId },
@@ -57,7 +57,7 @@ app.get("/user:userId", async (req, res) => {
 
 
 // Route to get all USERS for one TEAM
-app.get("/team:teamId", async (req, res) => {
+app.get("/team/:teamId", async (req, res) => {
   try {
     const teamUsers = await UserTeams.findAll({
     where: { team_id: req.params.teamId },

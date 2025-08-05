@@ -7,7 +7,7 @@ const filesRoutes = require("./files");
 const rolesRoutes = require("./roles");
 const teamsRoutes = require("./teams");
 const usersRoutes = require("./users");
-const userTeamsRoutes = require("./user_teams");
+const userTeamsRoutes = require("./userTeams");
 const workflowStageRoutes = require("./workflow_stage");
 const workflowsRoutes = require("./workflows");
 
@@ -21,9 +21,9 @@ app.use("/approval_requests", approvalRequestsRoutes);
 
 app.use("/files", filesRoutes);
 app.use("/roles", rolesRoutes);
-app.use("./teams", teamsRoutes);
+app.use("/teams", teamsRoutes);
 app.use("/users", usersRoutes);
-app.use("/user-teams", userTeamsRoutes);
+app.use("/userTeams", userTeamsRoutes);
 app.use("/workflow_stage", workflowStageRoutes);
 app.use("/workflows", workflowsRoutes);
 
