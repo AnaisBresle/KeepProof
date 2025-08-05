@@ -36,18 +36,6 @@ app.get("/", async (req, res) => {
 });
 
 
-// Route to get all users and their teams
-app.get("/", async (req, res) => {
-  try {
-    const users = await Users.findAll({
-      include: [{model: Teams, through:{attributes:[]}}]
-    });
-
-    res.json(users);
-  } catch (error) {
-    res.status(500).json({ error: "Error retrieving users", error });
-  }
-});
 
 
 // Route to get one specific user and its teams
@@ -70,11 +58,27 @@ app.get("/:id", async (req, res) => {
 app.put("/:id", async (req, res) => {
   try {
     const { username, email, password, role_id } = req.body;
-    const UpdateUser = await Users.update(
-      { username, email, password, role_id  },
+    const updatedFields = { username, email, role_id };
+ // Only hash password if it's provided
+    if (password) {
+      const password_hash = await bcrypt.hash(password, 10);
+      updatedFields.password_hash = password_hash;
+    }
+
+    const [updated] = await Users.update(
+      updatedFields,
       { where: { id: req.params.id } }
     );
-    res.json(UpdateUser);
+
+    if (updated ===0) {
+    return res.status(404).json({ error: "User not found or no changes" });  
+    }
+
+     // Fetch updated user
+    const updatedUser = await Users.findByPk(req.params.id, {
+      attributes: { exclude: ["password_hash"] },
+    });
+    res.json(updatedUser);
   } catch (error) {
     res.status(500).json({ error: "Error updating uer" });
   }
