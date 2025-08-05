@@ -59,6 +59,9 @@ Teams.belongsToMany(Users, {
   otherKey: "user_id",
 });
 
+UserTeams.belongsTo(Teams, { foreignKey: "team_id" });
+UserTeams.belongsTo(Users, { foreignKey: "user_id" });
+
 // Request and decisions relationships
 
 ApprovalRequests.hasMany(ApprovalDecisions, {
