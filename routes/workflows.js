@@ -1,4 +1,4 @@
-const router = require("express").Router();
+const app = require("express").Router();
 
 // import the models
 const { Workflows } = require("../models/index");
@@ -7,7 +7,7 @@ const { Workflows } = require("../models/index");
 // in later development - we will allow user to customise their workflow and create new ones. 
 
 // Get all workflows
-router.get("/", async (req, res) => {
+app.get("/", async (req, res) => {
   try {
     const workflows = await Workflows.findAll();
     res.json(workflows);
@@ -17,7 +17,7 @@ router.get("/", async (req, res) => {
 });
 
 // Get one workflow by ID
-router.get("/:id", async (req, res) => {
+app.get("/:id", async (req, res) => {
   try {
     const workflow = await Workflows.findByPk(req.params.id);
     if (!workflow) {
@@ -31,4 +31,4 @@ router.get("/:id", async (req, res) => {
 
 
 
-module.exports = router;
+module.exports = app;

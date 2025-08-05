@@ -4,6 +4,18 @@ const app = require("express").Router();
 // import the models
 const { UserTeams, Users, Teams } = require("../models/index");
 
+
+// route to get all userTeams
+app.get("/", async (req, res) => {
+  try {
+    const userteams = await UserTeams.findAll();
+    res.json(userteams);
+  } catch (error) {
+    res.status(500).json({ error: "Error retrieving userteams combo", details: error.message });
+  }
+});
+
+
 // Route to Assign a user to a team
 app.post("/", async (req, res) => {
   try {
@@ -42,7 +54,7 @@ res.json({ message: 'User removed from team' });
 
 
 // Route to get all TEAMs for one USER
-app.get("/user/:userId", async (req, res) => {
+app.get("/users/:userId", async (req, res) => {
   try {
     const userteams = await UserTeams.findAll({
     where: { user_id: req.params.userId },
@@ -57,7 +69,7 @@ app.get("/user/:userId", async (req, res) => {
 
 
 // Route to get all USERS for one TEAM
-app.get("/team/:teamId", async (req, res) => {
+app.get("/teams/:teamId", async (req, res) => {
   try {
     const teamUsers = await UserTeams.findAll({
     where: { team_id: req.params.teamId },

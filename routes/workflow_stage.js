@@ -1,4 +1,4 @@
-const router = require("express").Router();
+const app = require("express").Router();
 
 // import the models
 const { WorkflowStage } = require("../models/index");
@@ -6,7 +6,7 @@ const { WorkflowStage } = require("../models/index");
 // Same as workflow - MVP does not allow additional stages. 
 
 // Get all workflow stages
-router.get("/", async (req, res) => {
+app.get("/", async (req, res) => {
   try {
     const stages = await WorkflowStage.findAll();
     res.json(stages);
@@ -16,7 +16,7 @@ router.get("/", async (req, res) => {
 });
 
 // Get a specific workflow stage by ID
-router.get("/:id", async (req, res) => {
+app.get("/:id", async (req, res) => {
   try {
     const stage = await WorkflowStage.findByPk(req.params.id);
     if (!stage) {
@@ -31,4 +31,4 @@ router.get("/:id", async (req, res) => {
 
 
 /// Add all stages for one specific workflow
-module.exports = router;
+module.exports = app;
