@@ -42,33 +42,25 @@ app.get("/:id", async (req, res) => {
   }
 });
 
-// Route to retireve all decisions for one specific request
-app.get("/:request_id/decisions", async (req, res) => {
-  try {
-    const decisions = await ApprovalDecisions.findAll({
-      where: { request_id: req.params.request_id },
-      order: [['action_at', 'DESC']],  // Order by date of action
-    });
-    res.json(decisions);
-  } catch (error) {
-    res.status(500).json({ error: "Error retrieving decisions for this request", details: error.message });
-  }
-});
+
 
 // Route to update a decision
 app.put("/:id", async (req, res) => {
   try {
-    const { action, comment, from_role, to_role } = req.body;
-    const UpdateDecision = await ApprovalDecisions.update(
+    const { action, comment, from_role, to_role, acted_by } = req.body;
+    const [UpdateDecision] = await ApprovalDecisions.update(
       { action, comment, from_role, to_role, acted_by, action_at: new Date() },
       { where: { id: req.params.id } }
     );
-    res.json(UpdateDecision);
+ if (UpdateDecision === 0) {
+      return res.status(404).json({ error: "Decision not found or no changes made" });
+    }
+
+    res.json({ message: "Decision updated successfully" });
   } catch (error) {
-    res.status(500).json({ error: "Error updating record" });
+    res.status(500).json({ error: "Error updating record", details: error.message });
   }
 });
-
 // Route to delete a request
 app.delete("/:id", async (req, res) => {
   try {

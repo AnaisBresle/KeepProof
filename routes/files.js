@@ -2,7 +2,7 @@
 const app = require("express").Router();
 
 // import the models
-const { Roles, Users } = require("../models/index");
+const { Files } = require("../models/index");
 
 
 // Create/upload a new file

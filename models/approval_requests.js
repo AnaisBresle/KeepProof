@@ -13,7 +13,7 @@ ApprovalRequests.init(
   },
   type: {
     type: DataTypes.STRING, // e.g. "budget", "purchase", "feedback"
-    allowNull: false,
+    allowNull: true,
   },
   title: {
     type: DataTypes.STRING,
@@ -34,7 +34,7 @@ ApprovalRequests.init(
 
 updated_by: {
     type: DataTypes.INTEGER, // will use user_id
-    allowNull: false,
+    allowNull: true,
   },
 
   current_approver: {
