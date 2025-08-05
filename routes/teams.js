@@ -2,7 +2,7 @@
 const app = require("express").Router();
 
 // import the models
-const { Teams } = require("../models/index");
+const { Teams, Users } = require("../models/index");
 
 // Route to add a new team
 app.post("/", async (req, res) => {
@@ -23,7 +23,8 @@ app.get("/", async (req, res) => {
 
     res.json(teams);
   } catch (error) {
-    res.status(500).json({ error: "Error retrieving teams", error });
+    res.status(500).json({ message: "Error retrieving teams", details: error.message });
+
   }
 });
 
