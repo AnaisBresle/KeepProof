@@ -40,18 +40,21 @@ app.post("/", async (req, res) => {
 
 // Remove User from team
 
-app.delete("/:id", async (req, res) => {
+app.delete("/users/:userId/teams/:teamId", async (req, res) => {
   try {
-    const { user_id, team_id } = req.body;
-    const removeTeam = await UserTeams.destroy({ where: { user_id, team_id } });
-res.json({ message: 'User removed from team' });
-    if (!removeTeam) return res.status(404).json({ error: 'User not in team' });
-    res.json(removeTeam);
+    const { userId, teamId } = req.params;
+    const removed = await UserTeams.destroy({ where: { user_id:userId, team_id:teamId } });
+ if (!removed) {
+      return res.status(404).json({ error: "User not found in that team" });
+    }
+res.json({ message: "User successfully removed from team" });
   } catch (error) {
-    res.status(500).json({ error: "Error deleting team" });
+    res.status(500).json({
+      error: "Error removing user from team",
+      details: error.message
+    });
   }
 });
-
 
 // Route to get all TEAMs for one USER
 app.get("/users/:userId", async (req, res) => {
