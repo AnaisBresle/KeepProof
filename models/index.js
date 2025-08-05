@@ -7,7 +7,7 @@ const Workflows = require("./workflows");
 const WorkflowStage = require("./workflow_stage");
 const Files = require("./files");
 const Teams = require("./teams");
-const UserTeams = require("./user_teams");
+const UserTeams = require("./userTeams");
 
 // User and role tables link
 Roles.hasMany(Users, {

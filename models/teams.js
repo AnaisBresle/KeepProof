@@ -24,9 +24,11 @@ Teams.init(
     timestamps: false,
     freezeTableName: true,
     underscored: true,
-    modelName: "teams",
+    modelName: "Teams",
   }
 );
+
+
 
 // Export Post model
 module.exports = Teams;

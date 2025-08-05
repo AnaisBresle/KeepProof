@@ -15,12 +15,12 @@ UserTeams.init(
   user_id: {
       type: DataTypes.INTEGER,
       allowNull: false,
-      references: { model: 'users', key: 'id' }
+      references: { model: 'Users', key: 'id' }
     },
     team_id: {
       type: DataTypes.INTEGER,
       allowNull: false,
-      references: { model: 'teams', key: 'id' }
+      references: { model: 'Teams', key: 'id' }
     }
 
   },
@@ -29,7 +29,7 @@ UserTeams.init(
     timestamps: false,
     freezeTableName: true,
     underscored: true,
-    modelName: "user_teams",
+    modelName: "UserTeams",
   }
 );
 

@@ -41,6 +41,7 @@ app.get("/:id", async (req, res) => {
     }
     res.json(team);
   } catch (error) {
+    
     res.status(500).json({ error: "Error retrieving team", details: error.message });
   }
 });
