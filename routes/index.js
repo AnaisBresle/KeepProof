@@ -5,6 +5,7 @@ const approvalRequestsRoutes = require("./approval_requests");
 
 const filesRoutes = require("./files");
 const rolesRoutes = require("./roles");
+const teamsRoutes = require("./teams");
 const usersRoutes = require("./users");
 
 const workflowStageRoutes = require("./workflow_stage");
@@ -20,6 +21,7 @@ app.use("/approval_requests", approvalRequestsRoutes);
 
 app.use("/files", filesRoutes);
 app.use("/roles", rolesRoutes);
+app.use("./teams", teamsRoutes);
 app.use("/users", usersRoutes);
 
 app.use("/workflow_stage", workflowStageRoutes);
