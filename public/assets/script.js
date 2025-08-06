@@ -1,6 +1,12 @@
 let token = localStorage.getItem("authToken");
 let currentUser = null // this will be needed to capture data at login and then be used in functions. 
 
+function showSection(id) {
+  document.querySelectorAll(".section").forEach((sec) => sec.classList.add("hidden"));
+  document.getElementById(`section-${id}`).classList.remove("hidden");
+
+}
+
 function register() {
 
    const username = document.getElementById("username").value.trim();

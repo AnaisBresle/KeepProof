@@ -31,21 +31,21 @@
 
 
 `      <nav>
-            <button>My Account</button>
-            <button>Users & Teams</button>
-            <button>Requests</button>
+           <button onclick="showSection('account')">My Account</button>
+            <button onclick="showSection('users')">Users & Teams</button>
+            <button onclick="showSection('requests')">Requests</button>
         </nav>
 
         <hr>
 
         <!-- My Account -->
-        <div id="section-account">
+        <div id="section-account" class="section hidden">
             <h3>My Account</h3>
             <div id="account-info"></div>
         </div>
 
         <!-- Users & Teams -->
-        <div id="section-users">
+        <div id="section-users" class="section hidden">
             <h3>Users & Teams</h3>
             <div id="users-list"></div>
             
@@ -58,7 +58,7 @@
         </div>
 
         <!-- Requests -->
-        <div id="section-requests">
+        <div id="section-requests" class="section hidden">
             <h3>Approval Requests</h3>
             <div id="request-list"></div>
 
