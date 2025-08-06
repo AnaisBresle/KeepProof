@@ -51,6 +51,9 @@ function login() {
        // Hide the auth container and show the app container as we're now logged in
         document.getElementById("auth-container").classList.add("hidden");
         document.getElementById("app-container").classList.remove("hidden");
+
+        loadAccountInfo(); // getting data at login stage for speed.
+        loadUsers(); 
       } else {
         alert(data.message);
       }
