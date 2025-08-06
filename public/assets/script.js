@@ -103,3 +103,19 @@ function loadUsers() {
       });
     });
 }
+
+/// admin can create new teams
+function createTeam() {
+  const name = document.getElementById("new-team-name").value;
+  fetch("http://localhost:3001/api/teams" {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json" },
+    body: JSON.stringify({ name }),
+  })
+    .then((res) => res.json())
+    .then(() => {
+      alert("Team created!");
+      loadUsers();
+    });
+}
