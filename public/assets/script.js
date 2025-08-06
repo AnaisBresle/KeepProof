@@ -107,7 +107,7 @@ function loadUsers() {
 /// admin can create new teams
 function createTeam() {
   const name = document.getElementById("new-team-name").value;
-  fetch("http://localhost:3001/api/teams" {
+  fetch("http://localhost:3001/api/teams", {
     method: "POST",
     headers: {
       "Content-Type": "application/json" },
@@ -117,5 +117,25 @@ function createTeam() {
     .then(() => {
       alert("Team created!");
       loadUsers();
+    });
+}
+
+/// Requests list
+
+/// create request
+
+function createRequest() {
+  const title = document.getElementById("new-request-title").value;
+  const type = document.getElementById("new-request-type").value;
+  const description = document.getElementById("new-request-description").value;
+  fetch("http://localhost:3001/api/approval_requests", {
+    method: "POST",
+    headers: {"Content-Type": "application/json"},
+    body: JSON.stringify({ title, type, description, created_by: currentUser.id }),
+  })
+    .then((res) => res.json())
+    .then(() => {
+      alert("Request created");
+      loadRequests();
     });
 }

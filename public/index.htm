@@ -48,6 +48,7 @@
         <div id="section-users">
             <h3>Users & Teams</h3>
             <div id="users-list"></div>
+            
             <h4>Add User to Team</h4>
 
             <h4>Create New Team</h4>
@@ -61,8 +62,13 @@
             <h3>Approval Requests</h3>
             <div id="request-list"></div>
 
+
+
             <h4>Create New Request</h4>
-            <button>Create</button>
+             <input type="text" id="new-request-title" placeholder="Title">
+            <input type="text" id="new-request-type" placeholder="Type">
+            <textarea id="new-request-description" placeholder="Description"></textarea>
+            <button onclick="createRequest()">Create</button>
         </div>
     </div>
 
