@@ -1,9 +1,9 @@
 let token = localStorage.getItem("authToken");
+let currentUser = null // this will be needed to capture data at login and then be used in functions. 
 
 function register() {
 
    preventDefault(); // prevent form reload
-
 
   const username = document.getElementById("username").value.trim();
   const email = document.getElementById("email").value.trim();
@@ -40,6 +40,7 @@ function login() {
       if (data.token) {
         localStorage.setItem("authToken", data.token);
         token = data.token;
+        currentUser = data; // Need to create variable to use in later function
 
          // Set welcome message with username
     document.getElementById("welcome-message").textContent = `Welcome ${data.username}`;
@@ -47,10 +48,7 @@ function login() {
 
         alert("User Logged In successfully");
 
-        // Fetch the posts list
-        fetchRequests();
-
-        // Hide the auth container and show the app container as we're now logged in
+       // Hide the auth container and show the app container as we're now logged in
         document.getElementById("auth-container").classList.add("hidden");
         document.getElementById("app-container").classList.remove("hidden");
       } else {
@@ -67,11 +65,28 @@ function logout() {
     method: "POST",
     headers: { Authorization: `Bearer ${token}` },
   }).then(() => {
-    // Clear the token from the local storage as we're now logged out
+    // Clear the token and user data from the local storage as user logged out
     localStorage.removeItem("authToken");
     token = null;
+    currentUser = null
+    /// Show/hide the relevant section as logout. 
     document.getElementById("auth-container").classList.remove("hidden");
     document.getElementById("app-container").classList.add("hidden");
   });
+}
+
+//// Getting the info of the user once logged in to id them and provide correct access. 
+function loadAccountInfo() {
+  fetch("http://localhost:3001/api/users/${currentUser.id}")
+    .then((res) => res.json())
+    .then((data) => {
+      const teams = data.map((ut) => ut.Team?.name).join(", ");
+      document.getElementById("account-info").innerHTML = `
+        <p><strong>Username:</strong> ${currentUser.username}</p>
+        <p><strong>Email:</strong> ${currentUser.email}</p>
+        <p><strong>Role:</strong> ${currentUser.role || 'Admin'}</p> //May change default to user later.
+        <p><strong>Teams:</strong> ${teams}</p>
+      `;
+    });
 }
 
