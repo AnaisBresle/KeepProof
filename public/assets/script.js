@@ -80,7 +80,7 @@ function loadAccountInfo() {
   fetch("http://localhost:3001/api/users/${currentUser.id}")
     .then((res) => res.json())
     .then((data) => {
-      const teams = data.map((ut) => ut.Team?.name).join(", ");
+      const teams = data.map((userteam) => userteam.Team?.name).join(", "); // remember user can belong to multiple teams, hence join
       document.getElementById("account-info").innerHTML = `
         <p><strong>Username:</strong> ${currentUser.username}</p>
         <p><strong>Email:</strong> ${currentUser.email}</p>
@@ -90,3 +90,16 @@ function loadAccountInfo() {
     });
 }
 
+/// adming can see the list of users
+function loadUsers() {
+  fetch("http://localhost:3001/api/users/") /// think of adding Authorisation later when role access are defined. 
+    .then((res) => res.json())
+    .then((users) => {
+      const list = document.getElementById("users-list");
+      list.innerHTML = "";
+      users.forEach((user) => {
+        const teams = user.Teams?.map((team) => team.name).join(", ") || "-"; // getting team array from route and put a - if user doesn't have any team. 
+        list.innerHTML += `<p><strong>${user.username}</strong> (ID: ${user.id}) - Teams: ${teams}</p>`;
+      });
+    });
+}
