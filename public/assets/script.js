@@ -3,9 +3,7 @@ let currentUser = null // this will be needed to capture data at login and then 
 
 function register() {
 
-   preventDefault(); // prevent form reload
-
-  const username = document.getElementById("username").value.trim();
+   const username = document.getElementById("username").value.trim();
   const email = document.getElementById("email").value.trim();
   const password = document.getElementById("password").value;
   fetch("http://localhost:3001/api/users", {
@@ -15,21 +13,26 @@ function register() {
   })
     .then((res) => res.json())
     .then((data) => {
+      console.log("Register response:", data);
       if (data.errors) {
         alert(data.errors[0].message);
       } else {
-        alert("User registered successfully");
+        alert("User registered successfully!");
+        document.getElementById("username").value = "";
+        document.getElementById("email").value = "";
+        document.getElementById("password").value = "";
       }
     })
     .catch((error) => {
-      console.log(error);
+      console.error("Registration failed:", error);
+      alert("Something went wrong.");
     });
 }
 
 function login() {
-  const username = document.getElementById("username").value.trim();
-  const password = document.getElementById("login-password").value;
-  fetch("http://localhost:3001/api/users/login", {
+  const username = document.getElementById("login-username").value.trim();
+const password = document.getElementById("login-password").value;
+  fetch("http://localhost:3001/api/login", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({username, password }),

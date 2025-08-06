@@ -15,7 +15,9 @@ const path = require('path');
 const SECRET_KEY = process.env.JWT_SECRET || "supersecretkey";
 
 app.use(express.json());
-app.use('/', routes);
+app.use('/api', routes);
+
+
 
 // Middleware for authenticating JWT tokens
 const authenticateJWT = (req, res, next) => {
