@@ -133,12 +133,21 @@ function loadRequests() {
       const list = document.getElementById("request-list");
       list.innerHTML = "";
       requests.forEach((request) => {
-        const decisions = request.ApprovalDecisions?.map((decision) => team.name).join(", ") || "-"; // getting team array from route and put a - if user doesn't have any team. 
+ // Sort decisions by date (newest first)
+     
+      const decisions = request.ApprovalDecisions?.sort((a, b) => new Date(b.action_at) - new Date(a.action_at)); // sorting decision by action date - if b-a > then b is first and vice verse allong sorting newest first. 
+      const lastDecision = decisions?.[0] /// array starts at zero, so first record. 
+
+      const decisionOutcome = lastDecision
+          ? `${lastDecision.status} by ${lastDecision.username || "Unknown"} on ${new Date(lastDecision.action_at).toLocaleDateString()}`
+          : "No decisions yet";
+
         list.innerHTML += `<div>
-            <strong>${request.title}</strong> (${request.type})<br>
-            ${request.description}<br>
-            <em>Last updated: ${new Date(request.updated_at).toLocaleString()}</em>
-            <br><hr>
+            <strong>${request.title}</strong> (${request.type})<br />
+            ${request.description}<br />
+            <em>Last updated: ${new Date(request.updated_at).toLocaleString()}</em><br />
+            <strong>Last decision:</strong> ${decisionOutcome}
+            <br /><hr>
           </div>`;
       });
     });
