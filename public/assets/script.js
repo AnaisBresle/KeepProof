@@ -54,6 +54,7 @@ function login() {
 
         loadAccountInfo(); // getting data at login stage for speed.
         loadUsers(); 
+        loadRequests();
       } else {
         alert(data.message);
       }
@@ -125,7 +126,7 @@ function createTeam() {
 
 /// Requests list
 
-function loadUsers() {
+function loadRequests() {
   fetch("http://localhost:3001/api/approval_requets/") 
   .then((res) => res.json())
     .then((requests) => {
