@@ -125,6 +125,25 @@ function createTeam() {
 
 /// Requests list
 
+function loadUsers() {
+  fetch("http://localhost:3001/api/approval_requets/") 
+  .then((res) => res.json())
+    .then((requests) => {
+      const list = document.getElementById("request-list");
+      list.innerHTML = "";
+      requests.forEach((request) => {
+        const decisions = request.ApprovalDecisions?.map((decision) => team.name).join(", ") || "-"; // getting team array from route and put a - if user doesn't have any team. 
+        list.innerHTML += `<div>
+            <strong>${request.title}</strong> (${request.type})<br>
+            ${request.description}<br>
+            <em>Last updated: ${new Date(request.updated_at).toLocaleString()}</em>
+            <br><hr>
+          </div>`;
+      });
+    });
+}
+
+
 /// create request
 
 function createRequest() {
