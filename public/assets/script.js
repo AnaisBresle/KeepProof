@@ -27,12 +27,12 @@ function register() {
 }
 
 function login() {
-  const email = document.getElementById("login-email").value.trim();
+  const username = document.getElementById("username").value.trim();
   const password = document.getElementById("login-password").value;
   fetch("http://localhost:3001/api/users/login", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ email, password }),
+    body: JSON.stringify({username, password }),
   })
     .then((res) => res.json())
     .then((data) => {
