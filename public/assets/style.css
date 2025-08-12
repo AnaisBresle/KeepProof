@@ -4,44 +4,122 @@ body {
     text-align: center;
     margin: 0;
     padding: 20px;
+    color: #333;
 }
 
 .container {
-    max-width: 400px;
-    margin: auto;
+    max-width: 420px;
+    margin: 30px auto;
     background: white;
-    padding: 20px;
+    padding: 25px 30px;
     border-radius: 5px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 
+h2, h3, h4 {
+  margin-bottom: 15px;
+  color: #222;
+}
+
+nav {
+  margin: 20px 0;
+}
+
+nav button {
+  width: auto;
+  padding: 10px 20px;
+  margin: 0 8px;
+  border-radius: 20px;
+  font-size: 14px;
+  background-color: #e0f2f1;
+  color: #00796b;
+  border: 1.5px solid #00796b;
+  transition: background-color 0.3s, color 0.3s;
+}
+
+nav button:hover {
+  background-color: #00796b;
+  color: white;
+}
+
+
+
 input,
+textarea,
 button {
     width: 90%;
     margin: 10px 0;
     padding: 10px;
+    font-size: 15px;
+   border-radius: 6px;
+   box-sizing: border-box;
+   border: 1.5px solid #ccc;
+   transition: border-color 0.3s ease;
 }
 
-input[type="text"],
-select,
+input:focus,
+textarea:focus {
+  outline: none;
+  border-color: #4aaaa5;
+  box-shadow: 0 0 5px #4aaaa5aa;
+}
+
 textarea {
-    width: 100%;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    box-sizing: border-box;
-    margin-top: 6px;
-    margin-bottom: 10px;
+  resize: vertical;
+  min-height: 80px;
 }
 
-input[type="submit"] {
-    border: none;
-    background: #4aaaa5;
-    padding: 12px 20px;
-    border-radius: 4px;
-    cursor: pointer;
-    color: #ffffff;
-    font-size: 16px;
+button {
+    width: 50%;
+  background-color: #4aaaa5;
+  color: white;
+  border: none;
+  cursor: pointer;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  transition: background-color 0.3s ease;
 }
+
+button:hover {
+  background-color: #3b8f8b;
+}
+
+
+
+button.update-btn,
+button.delete-btn {
+  width: auto;
+  padding: 6px 12px;
+  font-size: 13px;
+  border-radius: 4px;
+  margin: 0 4px;
+  cursor: pointer;
+  font-weight: 600;
+  letter-spacing: 0.03em;
+}
+
+button.update-btn {
+  background-color: #4aaaa5;
+  color: white;
+  border: none;
+  transition: background-color 0.3s ease;
+}
+
+button.update-btn:hover {
+  background-color: #3b8f8b;
+}
+
+button.delete-btn {
+  background-color: #e57373;
+  color: white;
+  border: none;
+  transition: background-color 0.3s ease;
+}
+
+button.delete-btn:hover {
+  background-color: #c94f4f;
+}
+
 
 .hidden {
     display: none;

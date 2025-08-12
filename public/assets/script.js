@@ -150,6 +150,7 @@ function loadRequests() {
   fetch(`http://localhost:3001/api/approval_requests/`) 
   .then((res) => res.json())
     .then((requests) => {
+      console.log('Fetched requests with decisions:', requests);
       const list = document.getElementById("request-list");
       list.innerHTML = "";
       requests.forEach((request) => {
@@ -171,11 +172,11 @@ function loadRequests() {
       <option value="approved">Approve</option>
       <option value="rejected">Reject</option>
       <option value="pending">Pending</option>
-    </select>
+    </select><br />
              
-             <button onclick="updateDecision(${request.id})">Update</button>
+             <button class="update-btn" onclick="updateDecision(${request.id})">Update</button>
             <br />
-            <button onclick="deleteRequest(${request.id})">Delete</button> <br /><hr>
+            <button class="delete-btn" onclick="deleteRequest(${request.id})">Delete</button> <br /><hr>
           </div>`;
       });
     });
@@ -221,6 +222,8 @@ function deleteRequest(requestID) {
     .catch((err) => alert(err.message));
 }
 
+
+//update decision
 function updateDecision(requestID) {
   const selectEl = document.getElementById(`decision-select-${requestID}`);
   const decision = selectEl.value;
@@ -237,6 +240,7 @@ function updateDecision(requestID) {
       return res.json();
     })
     .then(() => {
+      console.log("Decision updated! Reloading requests...");
       alert("Decision updated!");
       loadRequests();
     })
