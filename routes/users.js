@@ -1,6 +1,8 @@
 // create a new router
 const app = require("express").Router();
 const bcrypt = require("bcryptjs");
+const jwt = require("jsonwebtoken");
+const SECRET_KEY = process.env.SECRET_KEY || "supersecretkey";
 
 // import the models
 const { Users, Teams } = require("../models/index");
@@ -35,6 +37,32 @@ app.get("/", async (req, res) => {
   }
 });
 
+// Login and get a JWT token
+app.post("/login", async (req, res) => {
+  try {
+    const { username, password } = req.body;
+    const user = await Users.findOne({ where: { username } });
+
+      if (!user) {
+      return res.status(401).json({ message: "Invalid username or password" });
+    }
+
+    const validPassword = await bcrypt.compare(password, user.password_hash);
+
+    if (!validPassword) {
+      return res.status(401).json({ message: "Invalid username or password" });
+    }
+
+    const token = jwt.sign(
+      { id: user.id, username: user.username },
+      SECRET_KEY,
+      { expiresIn: "2h" }
+    );
+    res.json({ token });
+  } catch (error) {
+    res.status(500).json({ message: "Error logging in", error });
+  }
+});
 
 
 
@@ -53,6 +81,7 @@ app.get("/:id", async (req, res) => {
     res.status(500).json({ error: "Error retrieving user", details: error.message });
   }
 });
+
 
 // Route to update a user
 app.put("/:id", async (req, res) => {

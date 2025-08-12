@@ -38,7 +38,7 @@ function register() {
 function login() {
   const username = document.getElementById("login-username").value.trim();
 const password = document.getElementById("login-password").value;
-  fetch("http://localhost:3001/api/login", {
+  fetch("http://localhost:3001/api/users/login", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({username, password }),
@@ -49,10 +49,16 @@ const password = document.getElementById("login-password").value;
       if (data.token) {
         localStorage.setItem("authToken", data.token);
         token = data.token;
-        currentUser = data; // Need to create variable to use in later function
+        currentUser = {
+          id: data.id,
+          username: data.username,
+          email: data.email,
+          role: data.role,
+
+        }; // Need to create variable to use in later function
 
          // Set welcome message with username
-    document.getElementById("welcome-message").textContent = `Welcome ${data.username}`;
+    document.getElementById("welcome-message").textContent = `Welcome ${currentUser.username}`;
 
 
         alert("User Logged In successfully");
