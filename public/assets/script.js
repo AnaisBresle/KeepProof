@@ -166,9 +166,15 @@ function loadRequests() {
             ${request.description}<br />
             <em>Last updated: ${new Date(request.updated_at).toLocaleString()}</em><br />
             <strong>Last decision:</strong> ${decisionOutcome}<br />
-             <button onclick="deleteRequest(${request.id})">Delete</button> <br />
-             <button onclick="updateDecision(${req.id})">Update</button>
-            <br /><hr>
+            <select id="decision-select-${request.id}">
+      <option value="approved">Approve</option>
+      <option value="rejected">Reject</option>
+      <option value="pending">Pending</option>
+    </select>
+             
+             <button onclick="updateDecision(${request.id})">Update</button>
+            <br />
+            <button onclick="deleteRequest(${request.id})">Delete</button> <br /><hr>
           </div>`;
       });
     });
@@ -196,10 +202,10 @@ function createRequest() {
 
 // delete request
 
-function deleteRequest(requestId) {
+function deleteRequest(requestID) {
   if (!confirm("Are you sure you want to delete this request?")) return;
 
-  fetch(`http://localhost:3001/api/approval_requests/${requestId}`, {
+  fetch(`http://localhost:3001/api/approval_requests/${requestID}`, {
     method: "DELETE",
     
   })
@@ -211,11 +217,11 @@ function deleteRequest(requestId) {
     .catch((err) => alert(err.message));
 }
 
-function updateDecision(requestId) {
-  const selectEl = document.getElementById(`decision-select-${requestId}`);
+function updateDecision(requestID) {
+  const selectEl = document.getElementById(`decision-select-${requestID}`);
   const decision = selectEl.value;
 
-  fetch(`http://localhost:3001/api/approval_requests/${requestId}`, {
+  fetch(`http://localhost:3001/api/approval_requests/${requestID}`, {
     method: "PUT",
     headers: {
       "Content-Type": "application/json",
