@@ -119,7 +119,7 @@ function loadUsers() {
       list.innerHTML = "";
       users.forEach((user) => {
         const teams = user.Teams?.map(team => team.name).join(", ") || '-';// getting team array from route and put a - if user doesn't have any team. 
-        list.innerHTML += `<p><strong>${user.username}</strong> (- Teams: ${teams}</p>`;
+        list.innerHTML += `<p><strong>${user.username}</strong> - Teams: ${teams} </p>`;
       });
     });
 }
@@ -139,6 +139,9 @@ function createTeam() {
       loadUsers();
     });
 }
+
+
+
 
 /// Requests list
 
@@ -162,7 +165,8 @@ function loadRequests() {
             <strong>${request.title}</strong> (${request.type})<br />
             ${request.description}<br />
             <em>Last updated: ${new Date(request.updated_at).toLocaleString()}</em><br />
-            <strong>Last decision:</strong> ${decisionOutcome}
+            <strong>Last decision:</strong> ${decisionOutcome}<br />
+             <button onclick="deleteRequest(${request.id})">Delete</button>
             <br /><hr>
           </div>`;
       });
@@ -186,4 +190,22 @@ function createRequest() {
       alert("Request created");
       loadRequests();
     });
+}
+
+
+// delete request
+
+function deleteRequest(requestId) {
+  if (!confirm("Are you sure you want to delete this request?")) return;
+
+  fetch(`http://localhost:3001/api/approval_requests/${requestId}`, {
+    method: "DELETE",
+    
+  })
+    .then((res) => {
+      if (!res.ok) throw new Error("Failed to delete request");
+      alert("Request deleted!");
+      loadRequests();
+    })
+    .catch((err) => alert(err.message));
 }
