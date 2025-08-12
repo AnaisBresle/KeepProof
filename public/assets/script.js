@@ -166,7 +166,8 @@ function loadRequests() {
             ${request.description}<br />
             <em>Last updated: ${new Date(request.updated_at).toLocaleString()}</em><br />
             <strong>Last decision:</strong> ${decisionOutcome}<br />
-             <button onclick="deleteRequest(${request.id})">Delete</button>
+             <button onclick="deleteRequest(${request.id})">Delete</button> <br />
+             <button onclick="updateDecision(${req.id})">Update</button>
             <br /><hr>
           </div>`;
       });
@@ -208,4 +209,29 @@ function deleteRequest(requestId) {
       loadRequests();
     })
     .catch((err) => alert(err.message));
+}
+
+function updateDecision(requestId) {
+  const selectEl = document.getElementById(`decision-select-${requestId}`);
+  const decision = selectEl.value;
+
+  fetch(`http://localhost:3001/api/approval_requests/${requestId}`, {
+    method: "PUT",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({ decision }),
+  })
+    .then((res) => {
+      if (!res.ok) throw new Error("Failed to update decision");
+      return res.json();
+    })
+    .then(() => {
+      alert("Decision updated!");
+      loadRequests();
+    })
+    .catch((err) => {
+      console.error(err);
+      alert("Error updating decision");
+    });
 }
