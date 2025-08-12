@@ -136,6 +136,7 @@ function createTeam() {
     .then((res) => res.json())
     .then(() => {
       alert("Team created!");
+      document.getElementById("new-team-name").value = "";  // Clear input
       loadUsers();
     });
 }
@@ -195,6 +196,9 @@ function createRequest() {
     .then((res) => res.json())
     .then(() => {
       alert("Request created");
+      document.getElementById("new-request-title").value = "";
+document.getElementById("new-request-type").value = "";
+document.getElementById("new-request-description").value = "";
       loadRequests();
     });
 }
