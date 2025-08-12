@@ -67,7 +67,7 @@ const password = document.getElementById("login-password").value;
 
          // Set welcome message with username
     document.getElementById("welcome-message").textContent = `Welcome ${currentUser.username}`;
-
+    document.querySelector("nav").classList.remove("hidden");
 
         alert("User Logged In successfully");
 
@@ -92,7 +92,9 @@ function logout() {localStorage.removeItem("authToken");
   currentUser = null;
   document.getElementById("auth-container").classList.remove("hidden");
   document.getElementById("app-container").classList.add("hidden");
+  document.querySelector("nav").classList.add("hidden");
   alert("Logged out successfully!");
+ 
 }
 
 //// Getting the info of the user once logged in to id them and provide correct access. 
