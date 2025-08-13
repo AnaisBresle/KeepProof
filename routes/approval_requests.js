@@ -2,7 +2,7 @@
 const app = require("express").Router();
 
 // import the models
-const { ApprovalRequests, ApprovalDecisions } = require("../models/index");
+const { ApprovalRequests, ApprovalDecisions, Users } = require("../models/index");
 
 // Route to add a new request
 app.post("/", async (req, res) => {
@@ -19,11 +19,33 @@ app.post("/", async (req, res) => {
 // Route to get all approval requests
 app.get("/", async (req, res) => {
   try {
-    const requests = await ApprovalRequests.findAll();
+    const requests = await ApprovalRequests.findAll({
+      include: [
+        {
+          model: ApprovalDecisions,
+          separate: true,       // only fetch latest decision
+          limit: 1,
+          order: [['action_at', 'DESC']],
+          required: false,      // allow requests with no decisions yet
+          include: [
+            {
+              model: Users,
+              as: "User",
+              attributes: ["username"],
+              required: false   // allow decisions with no user
+            }
+          ]
+        }
+      ]
+    });
 
-    res.json(requests);
+    // Always return an array
+    res.json(Array.isArray(requests) ? requests : []);
   } catch (error) {
-    res.status(500).json({ error: "Error retrieving requests", error });
+    console.error("Sequelize error:", error);
+
+    // Never throw 500, return empty array to prevent frontend crash
+    res.json([]);
   }
 });
 

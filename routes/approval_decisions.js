@@ -7,12 +7,14 @@ const { ApprovalDecisions } = require("../models/index");
 // Route to add a new decision
 app.post("/", async (req, res) => {
   try {
-    const { request_id, acted_by, action, comment, from_role, to_role} = req.body;
+    console.log
+    const { request_id, acted_by, action, comment= null, from_role = null, to_role = null} = req.body;
     const newDecision = await ApprovalDecisions.create({ request_id, acted_by, action, comment, from_role, to_role, action_at: new Date() });
 
     res.status(201).json(newDecision);
+    
   } catch (error) {
-    res.status(500).json({ error: "Error submitting the decision" });
+    res.status(500).json({ error: "Error submitting the decision", details: error.message });
   }
 });
 
@@ -32,7 +34,7 @@ app.get("/", async (req, res) => {
 app.get("/:id", async (req, res) => {
   try {
     const decision = await ApprovalDecisions.findByPk(req.params.id);
-    res.json(decision);
+    
   if (!decision) {
       return res.status(404).json({ error: "Record not found" });
     }
@@ -48,15 +50,17 @@ app.get("/:id", async (req, res) => {
 app.put("/:id", async (req, res) => {
   try {
     const { action, comment, from_role, to_role, acted_by } = req.body;
-    const [UpdateDecision] = await ApprovalDecisions.update(
+    const [updateDecision] = await ApprovalDecisions.update(
       { action, comment, from_role, to_role, acted_by, action_at: new Date() },
       { where: { id: req.params.id } }
     );
- if (UpdateDecision === 0) {
+ if (updateDecision === 0) {
       return res.status(404).json({ error: "Decision not found or no changes made" });
     }
+    const updatedRecord = await ApprovalDecisions.findByPk(req.params.id);
+    res.json(updatedRecord);
 
-    res.json({ message: "Decision updated successfully" });
+
   } catch (error) {
     res.status(500).json({ error: "Error updating record", details: error.message });
   }

@@ -56,6 +56,7 @@ const password = document.getElementById("login-password").value;
       // Save the token in the local storage
       if (data.token) {
         localStorage.setItem("authToken", data.token);
+        localStorage.setItem("user_id", data.id); // store user ID for later
         token = data.token;
         currentUser = {
           id: data.id,
@@ -144,43 +145,62 @@ function createTeam() {
 }
 
 
-
+console.log("About to fetch approval requests...");
+fetch("/api/approval_requests")
+  .then(res => {
+    console.log("Raw response:", res);
+    return res.json();
+  })
+  .then(data => {
+    console.log("Requests from API:", data);
+    data.forEach(r => console.log("Request:", r));
+  })
+  .catch(err => {
+    console.error("Fetch failed:", err);
+  });
 
 /// Requests list
 
 function loadRequests() {
   fetch(`http://localhost:3001/api/approval_requests/`) 
-  .then((res) => res.json())
+    .then((res) => res.json())
     .then((requests) => {
-      console.log('Fetched requests with decisions:', requests);
       const list = document.getElementById("request-list");
       list.innerHTML = "";
+
+      console.log("Requests from API:", requests);
+
       requests.forEach((request) => {
- // Sort decisions by date (newest first)
-     
-      const decisions = request.ApprovalDecisions?.sort((a, b) => new Date(b.action_at) - new Date(a.action_at)); // sorting decision by action date - if b-a > then b is first and vice verse allong sorting newest first. 
-      const lastDecision = decisions?.[0] /// array starts at zero, so first record. 
+        // Safely get the latest decision
+        let decisionOutcome = "No decision yet";
+        if (request.ApprovalDecisions && request.ApprovalDecisions.length > 0) {
+          // Sort decisions by id descending 
+          const sortedDecisions = request.ApprovalDecisions.sort((a, b) => b.id - a.id);
+          const lastDecision = sortedDecisions[0];
+          decisionOutcome = `${lastDecision.action} by ${lastDecision.User?.username || "Unknown"}`;
+        }
 
-      const decisionOutcome = lastDecision
-          ? `${lastDecision.status} by ${lastDecision.username || "Unknown"} on ${new Date(lastDecision.action_at).toLocaleDateString()}`
-          : "No decisions yet";
+        console.log(`Request: ${request.title}, Last Decision: ${decisionOutcome}`);
 
+        // Build the HTML 
         list.innerHTML += `<div>
-            <strong>${request.title}</strong> (${request.type})<br />
-            ${request.description}<br />
-            <em>Last updated: ${new Date(request.updated_at).toLocaleString()}</em><br />
-            <strong>Last decision:</strong> ${decisionOutcome}<br />
-            <select id="decision-select-${request.id}">
-      <option value="approved">Approve</option>
-      <option value="rejected">Reject</option>
-      <option value="pending">Pending</option>
-    </select><br />
-             
-             <button class="update-btn" onclick="updateDecision(${request.id})">Update</button>
-            <br />
-            <button class="delete-btn" onclick="deleteRequest(${request.id})">Delete</button> <br /><hr>
-          </div>`;
+          <strong>${request.title}</strong> (${request.type || 'N/A'})<br />
+          ${request.description || ''}<br />
+          <em>Last updated: ${request.updated_at ? new Date(request.updated_at).toLocaleString() : '-'}</em><br />
+          <strong>Last decision:</strong> ${decisionOutcome}<br />
+          <select id="decision-select-${request.id}">
+            <option value="approved">Approve</option>
+            <option value="rejected">Reject</option>
+            <option value="pending">Pending</option>
+          </select><br />
+          <button class="update-btn" onclick="updateDecision(${request.id})">Update</button><br />
+          <button class="delete-btn" onclick="deleteRequest(${request.id})">Delete</button><br /><hr>
+        </div>`;
       });
+    })
+    .catch((err) => {
+      console.error("Error loading requests:", err);
+      alert("Failed to load requests.");
     });
 }
 
@@ -230,24 +250,34 @@ function updateDecision(requestID) {
   const selectEl = document.getElementById(`decision-select-${requestID}`);
   const decision = selectEl.value;
 
-  fetch(`http://localhost:3001/api/approval_requests/${requestID}`, {
-    method: "PUT",
+  const acted_by = currentUser?.id;
+
+console.log({   request_id: requestID,  acted_by: acted_by,  action: decision});
+
+
+  fetch(`http://localhost:3001/api/approval_decisions/`, {
+    method: "POST",
     headers: {
       "Content-Type": "application/json",
     },
-    body: JSON.stringify({ decision }),
+    body: JSON.stringify({ 
+      request_id: requestID,
+      acted_by: acted_by,
+      action: decision,
+      comment: null, 
+      from_role: null, 
+      to_role: null}),
   })
     .then((res) => {
       if (!res.ok) throw new Error("Failed to update decision");
       return res.json();
     })
     .then(() => {
-      console.log("Decision updated! Reloading requests...");
       alert("Decision updated!");
       loadRequests();
     })
     .catch((err) => {
-      console.error(err);
+      console.error("Error creating decision:", err); 
       alert("Error updating decision");
     });
 }

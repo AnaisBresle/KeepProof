@@ -36,7 +36,11 @@ Users.hasMany(ApprovalDecisions, {
 
 ApprovalDecisions.belongsTo(Users, {
   foreignKey: "acted_by",
+  as: "User",
 });
+
+Users.hasMany(ApprovalDecisions, { 
+  foreignKey: "acted_by" });
 
 Users.hasMany(Files, {
   foreignKey: "uploaded_by",
