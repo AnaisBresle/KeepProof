@@ -173,15 +173,14 @@ function loadRequests() {
       requests.forEach((request) => {
         // Safely get the latest decision
         let decisionOutcome = "No decision yet";
-        if (request.ApprovalDecisions && request.ApprovalDecisions.length > 0) {
-          // Sort decisions by id descending 
-          const sortedDecisions = request.ApprovalDecisions.sort((a, b) => b.id - a.id);
-          const lastDecision = sortedDecisions[0];
-          decisionOutcome = `${lastDecision.action} by ${lastDecision.User?.username || "Unknown"}`;
-        }
+        if (request.approval_decisions && request.approval_decisions.length > 0) {
+  const sortedDecisions = request.approval_decisions.sort((a, b) => b.id - a.id);
+  const lastDecision = sortedDecisions[0];
+  const username = lastDecision.User?.username || "Unknown";
+  decisionOutcome = `${lastDecision.action} by ${username}`;
+}
 
         console.log(`Request: ${request.title}, Last Decision: ${decisionOutcome}`);
-
         // Build the HTML 
         list.innerHTML += `<div>
           <strong>${request.title}</strong> (${request.type || 'N/A'})<br />
