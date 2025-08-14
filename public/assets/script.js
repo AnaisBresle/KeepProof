@@ -104,11 +104,11 @@ function loadAccountInfo() {
     .then((res) => res.json())
     .then((data) => {
       const teams = data.Teams?.map(team => team.name).join(", ") || '-'; // remember user can belong to multiple teams, hence join
-      document.getElementById("account-info").innerHTML = `
-        <p><strong>Username:</strong> ${currentUser.username}</p>
+      document.getElementById("account-info").innerHTML = `<div class="profile-card">
+        <h4>Username:</strong> ${currentUser.username}</h4>
         <p><strong>Email:</strong> ${currentUser.email}</p>
         <p><strong>Role:</strong> ${currentUser.role || 'Admin'}</p> 
-        <p><strong>Teams:</strong> ${teams}</p>
+        <p><strong>Teams:</strong> ${teams}</p></div>
       `;
     });
 }
@@ -122,7 +122,7 @@ function loadUsers() {
       list.innerHTML = "";
       users.forEach((user) => {
         const teams = user.Teams?.map(team => team.name).join(", ") || '-';// getting team array from route and put a - if user doesn't have any team. 
-        list.innerHTML += `<p><strong>${user.username}</strong> - Teams: ${teams} </p>`;
+        list.innerHTML += `<div class="card"><h4>${user.username}</h4> <p> Teams: ${teams} </p></div>`;
       });
     });
 }
@@ -173,20 +173,23 @@ function loadRequests() {
       requests.forEach((request) => {
         // Safely get the latest decision
         let decisionOutcome = "No decision yet";
+        let decisionClass = "pending"; // default style
         if (request.approval_decisions && request.approval_decisions.length > 0) {
   const sortedDecisions = request.approval_decisions.sort((a, b) => b.id - a.id);
   const lastDecision = sortedDecisions[0];
   const username = lastDecision.User?.username || "Unknown";
   decisionOutcome = `${lastDecision.action} by ${username}`;
+      if (decisionOutcome === "approved") decisionClass = "approved";
+      else if (decisionOutcome === "rejected") decisionClass = "rejected";
 }
 
         console.log(`Request: ${request.title}, Last Decision: ${decisionOutcome}`);
         // Build the HTML 
-        list.innerHTML += `<div>
-          <strong>${request.title}</strong> (${request.type || 'N/A'})<br />
-          ${request.description || ''}<br />
-          <em>Last updated: ${request.updated_at ? new Date(request.updated_at).toLocaleString() : '-'}</em><br />
-          <strong>Last decision:</strong> ${decisionOutcome}<br />
+        list.innerHTML += `<div class="card">
+          <h4>${request.title}</h4> (${request.type || 'N/A'})
+          <p>${request.description || ''}</p>
+          <p><em>Last updated: ${request.updated_at ? new Date(request.updated_at).toLocaleString() : '-'}</em></p>
+          <p><span class="status ${decisionClass}"> ${decisionOutcome}</span></p>
           <select id="decision-select-${request.id}">
             <option value="approved">Approve</option>
             <option value="rejected">Reject</option>
