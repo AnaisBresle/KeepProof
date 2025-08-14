@@ -69,6 +69,28 @@ nav button:hover {
   font-size: 14px;
 }
 
+.profile-card {
+  background: #fff;
+  border: 1.5px solid #ddd;
+  border-radius: 8px;
+  padding: 20px;
+  text-align: left;
+  max-width: 350px;
+  margin: 0 auto;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+}
+
+.profile-card h4 {
+  margin-top: 0;
+  margin-bottom: 8px;
+}
+
+.profile-card p {
+  margin: 4px 0;
+  font-size: 14px;
+  color: #444;
+}
+How it will work in
 
 input,
 textarea,
