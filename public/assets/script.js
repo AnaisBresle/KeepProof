@@ -179,8 +179,9 @@ function loadRequests() {
   const lastDecision = sortedDecisions[0];
   const username = lastDecision.User?.username || "Unknown";
   decisionOutcome = `${lastDecision.action} by ${username}`;
-      if (decisionOutcome === "approved") decisionClass = "approved";
-      else if (decisionOutcome === "rejected") decisionClass = "rejected";
+      if (lastDecision.action === "approved") decisionClass = "approved";
+else if (lastDecision.action === "rejected") decisionClass = "rejected";
+else decisionClass = "pending";
 }
 
         console.log(`Request: ${request.title}, Last Decision: ${decisionOutcome}`);
@@ -195,8 +196,10 @@ function loadRequests() {
             <option value="rejected">Reject</option>
             <option value="pending">Pending</option>
           </select><br />
-          <button class="update-btn" onclick="updateDecision(${request.id})">Update</button><br />
-          <button class="delete-btn" onclick="deleteRequest(${request.id})">Delete</button><br /><hr>
+         <div class="btn-group">
+  <button class="update-btn" onclick="updateDecision(${request.id})">Update</button>
+  <button class="delete-btn" onclick="deleteRequest(${request.id})">Delete</button>
+</div>
         </div>`;
       });
     })
