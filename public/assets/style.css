@@ -42,7 +42,23 @@ nav button:hover {
   color: white;
 }
 
+#app-container .card,
+.section .card {
+  border: none;             
+  box-shadow: none;        
+  padding: 0;              
+  background: transparent;  
+}
 
+#app-container .d-flex {
+  border-bottom: 1px solid #ddd;
+  padding-bottom: 10px;
+}
+
+
+#app-container nav {
+  margin-top: 20px;
+}
 .card-list {
   display: flex;
   flex-direction: column;
@@ -69,15 +85,17 @@ nav button:hover {
   font-size: 14px;
 }
 
+.card.p-4.shadow-sm {
+  max-width: 400px;
+  margin: 30px auto;
+}
+
 .profile-card {
+border: 1.5px solid #ddd;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.08);
   background: #fff;
-  border: 1.5px solid #ddd;
-  border-radius: 8px;
-  padding: 20px;
-  text-align: left;
-  max-width: 350px;
-  margin: 0 auto;
-  box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+  max-width: 600px;   /* bigger than login */
+  width: 100%;
 }
 
 .profile-card h4 {
@@ -168,6 +186,22 @@ button.delete-btn:hover {
   background-color: #c94f4f;
 }
 
+.btn-group {
+  display: flex;
+  gap: 10px;         /* spacing between buttons */
+  margin-top: 8px;
+}
+
+.btn-group button {
+  flex: 1;           /* both take equal width */
+}
+
+#app-container .btn-danger {
+  padding: 6px 14px;
+  font-size: 14px;
+  border-radius: 6px;
+}
+
 
 .hidden {
     display: none;
@@ -175,26 +209,54 @@ button.delete-btn:hover {
 
 .status {
   display: inline-block;
-  padding: 4px 8px;
-  border-radius: 12px;
-  font-size: 12px;
-  font-weight: bold;
+  padding: 6px 12px;
+  border-radius: 16px;
+  font-size: 13px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.15);
 }
 
+/* Approved = strong green */
 .status.approved {
-  background-color: #e0f7e9;
-  color: #2e7d32;
+  background-color: #c8e6c9;
+  color: #1b5e20;
+  border: 1px solid #2e7d32;
 }
 
+/* Rejected = bold red */
 .status.rejected {
-  background-color: #fdecea;
-  color: #c62828;
+  background-color: #ffcdd2;
+  color: #b71c1c;
+  border: 1px solid #c62828;
 }
 
+/* Pending = neutral amber */
 .status.pending {
-  background-color: #f3f3f3;
-  color: #666;
+  background-color: #fff3cd;
+  color: #856404;
+  border: 1px solid #d6b75c;
+}
+
+#section-users,
+#section-requests {
+  max-width: 900px;
+  margin: 30px auto;
+  background: #fff;
+  padding: 30px;
+  border-radius: 8px;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.1);
+  text-align: left;
 }
 
 
-
+#section-account {
+  max-width: 600px;
+  margin: 30px auto;
+  background: #fff;
+  padding: 25px;
+  border-radius: 8px;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.1);
+  text-align: left;
+}
