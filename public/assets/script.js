@@ -94,6 +94,12 @@ function logout() {localStorage.removeItem("authToken");
   document.getElementById("auth-container").classList.remove("hidden");
   document.getElementById("app-container").classList.add("hidden");
   document.querySelector("nav").classList.add("hidden");
+
+  document.getElementById("request-list").innerHTML = "";
+  document.getElementById("users-list").innerHTML = "";
+  document.getElementById("account-info").innerHTML = "";
+  document.getElementById("welcome-message").textContent = "";
+
   alert("Logged out successfully!");
  
 }
